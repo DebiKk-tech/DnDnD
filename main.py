@@ -22,7 +22,7 @@ class Ui_Form(QWidget):
         self.bar_monster_health.setVisible(False)
         get_form(self)
         self.pl = Player()
-        get_form_loc(self, self.pl)
+        get_form_locations(self, self.pl)
         get_player(self.pl)
         output('DnDnD успешно запустилась. Приятной игры!')
         start_location()

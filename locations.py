@@ -31,7 +31,7 @@ AMULETS_DICT = {
 }
 
 
-def get_form_loc(getform, getpl):
+def get_form_locations(getform, getpl):
     global form, pl
     form = getform
     pl = getpl
