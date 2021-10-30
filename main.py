@@ -24,7 +24,7 @@ class Ui_Form(QWidget):
         self.pl = Player()
         get_form(self)
         labels_update()
-        get_form_loc(self, self.pl)
+        get_form_locations(self, self.pl)
         get_player(self.pl)
         get_form_tav_funcs(self)
         output('DnDnD успешно запустилась. Приятной игры!')

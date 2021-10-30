@@ -36,7 +36,7 @@ AMULETS_DICT = {
 NO_OUTPUT = 'Вывод не нужен'
 
 
-def get_form_loc(getform, getpl):
+def get_form_locations(getform, getpl):
     global form, pl
     form = getform
     pl = getpl

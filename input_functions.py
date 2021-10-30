@@ -15,6 +15,13 @@ def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
         btn2.setVisible(False)
 
 
+def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
+    for btn in grp.buttons():
+        btn.setVisible(True)
+    for btn2 in list(wrong_grp_1.buttons()) + list(wrong_grp_2.buttons()):
+        btn2.setVisible(False)
+
+
 def input_two(spis, list_of_funcs):
     enable_buttons(form.grp_two, form.grp_three, form.grp_four)
     for n, btn in enumerate(form.grp_two.buttons()):
