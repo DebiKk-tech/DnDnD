@@ -2,10 +2,11 @@ import sys
 
 from PyQt5 import uic
 from PyQt5.QtWidgets import QApplication, QWidget, QPlainTextEdit
-from PyQt5.QtGui import QTextCursor
+
 from input_functions import *
 from locations import *
 from creatures import *
+from tavern_functions import get_form_tav_funcs
 
 
 class Ui_Form(QWidget):
@@ -20,12 +21,17 @@ class Ui_Form(QWidget):
         for btn in self.grp_four.buttons():
             btn.setVisible(False)
         self.bar_monster_health.setVisible(False)
-        get_form(self)
         self.pl = Player()
+        get_form(self)
+        labels_update()
         get_form_loc(self, self.pl)
         get_player(self.pl)
+        get_form_tav_funcs(self)
         output('DnDnD успешно запустилась. Приятной игры!')
         start_location()
+
+    def closeEvent(self, *event):
+        profile_update()
 
 
 def except_hook(cls, exception, traceback):

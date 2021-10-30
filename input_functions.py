@@ -1,44 +1,40 @@
 from time import sleep
-from PyQt5.QtWidgets import QWidget, QInputDialog
+from PyQt5.QtWidgets import QWidget, QInputDialog, QApplication
 
 
 def get_form(getform):
-    global form
+    global form, pl
     form = getform
+    pl = form.pl
+
+
+def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
+    for btn in grp.buttons():
+        btn.setVisible(True)
+    for btn2 in list(wrong_grp_1.buttons()) + list(wrong_grp_2.buttons()):
+        btn2.setVisible(False)
 
 
 def input_two(spis, list_of_funcs):
-    for btn in form.grp_three.buttons():
-        btn.setVisible(False)
-    for btn in form.grp_four.buttons():
-        btn.setVisible(False)
+    enable_buttons(form.grp_two, form.grp_three, form.grp_four)
     for n, btn in enumerate(form.grp_two.buttons()):
         btn.disconnect()
-        btn.setVisible(True)
         btn.clicked.connect(list_of_funcs[n])
         btn.setText(spis[n])
 
 
 def input_three(spis, list_of_funcs):
-    for btn in form.grp_two.buttons():
-        btn.setVisible(False)
-    for btn in form.grp_four.buttons():
-        btn.setVisible(False)
+    enable_buttons(form.grp_three, form.grp_two, form.grp_four)
     for n, btn in enumerate(form.grp_three.buttons()):
         btn.disconnect()
-        btn.setVisible(True)
         btn.clicked.connect(list_of_funcs[n])
         btn.setText(spis[n])
 
 
 def input_four(spis, list_of_funcs):
-    for btn in form.grp_three.buttons():
-        btn.setVisible(False)
-    for btn in form.grp_two.buttons():
-        btn.setVisible(False)
+    enable_buttons(form.grp_four, form.grp_two, form.grp_three)
     for n, btn in enumerate(form.grp_four.buttons()):
         btn.disconnect()
-        btn.setVisible(True)
         btn.clicked.connect(list_of_funcs[n])
         btn.setText(spis[n])
 
@@ -72,4 +68,9 @@ def output(text):
 
 def profile_update():
     print('Профиль пользователя обновлен')  # СДЕЛАТЬ ПОЗЖЕ
+
+
+def labels_update():
+    form.lbl_money.setText(f'Ваши монеты: {pl.money}')
+    form.lbl_health.setText(f'Ваше здоровье: {pl.health}/{pl.maxhealth}')
 

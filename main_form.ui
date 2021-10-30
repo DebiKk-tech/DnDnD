@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>DnDnD</string>
   </property>
   <widget class="QProgressBar" name="bar_monster_health">
    <property name="geometry">
@@ -224,6 +224,32 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_health">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>480</y>
+     <width>221</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ваше здоровье: 100/100</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_money">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>480</y>
+     <width>291</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ваши монеты: 20</string>
    </property>
   </widget>
  </widget>

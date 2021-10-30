@@ -1,4 +1,11 @@
 from input_functions import *
+from throw_dices_form import ThrowDicesForm
+NO_OUTPUT = 'Вывод не нужен'
+
+
+def get_form_tav_funcs(getform):
+    global form
+    form = getform
 
 
 def get_tavern_and_startloc(gettavern, getstartloc):
@@ -13,8 +20,8 @@ def get_player(getpl):
 
 
 def games():
-    print('Азартные игры')
-    output('Не реализовано')
+    form.form2 = ThrowDicesForm(form)
+    form.form2.show()
 
 
 def elixirs():
@@ -37,12 +44,10 @@ def buy_potions():
             pl.potions += n
             pl.money -= 120 * n
             output('Поздравляем с покупкой')
-            tavern('Вывод не нужен')
         else:
             output('У вас недостаточно денег')
-            tavern('Вывод не нужен')
-    else:
-        tavern('Вывод не нужен')
+    tavern(NO_OUTPUT)
+    labels_update()
 
 
 def buy_elixirs():
@@ -52,18 +57,15 @@ def buy_elixirs():
             pl.elixirs += n
             pl.money -= 50 * n
             output('Поздравляем с покупкой')
-            tavern('Вывод не нужен')
         else:
             output('У вас недостаточно денег')
-            tavern('Вывод не нужен')
-    else:
-        tavern('Вывод не нужен')
+    tavern(NO_OUTPUT)
+    labels_update()
 
 
 def tavern_heal():
     if pl.money >= 60:  # 60 - половина стоимости зелья лечения
         pl.heal('max')
-        tavern('Вывод не нужен')
     else:
         output('Недостаточно монет!')
-        tavern('Вывод не нужен')
+    tavern(NO_OUTPUT)
