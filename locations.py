@@ -1,6 +1,7 @@
 from input_functions import *
 from tavern_functions import *
 from creatures import *
+from tubes_functions import get_start_location, happening_choice
 WEAPON_DICT = {
     'Топор': Weapon('Топор', 5, 1200),
     'Короткий меч': Weapon('Короткий меч', 7, 3000),
@@ -64,8 +65,8 @@ def tavern(*args):
 
 
 def underground():
-    output('Не реализовано')
-    print('Подземка')
+    output('Вы спускаетесь в Подземелье..')
+    select_location()
 
 
 def start_location():
@@ -127,4 +128,28 @@ def shop_amulets():
     labels_update()
 
 
+def select_location():
+    output('Выберите локацию')
+    input_four(['Канализация', 'Пещеры', 'Катакомбы', 'Адская башня'], [tubes, caves, catacombs, hell_tower])
+
+
+def tubes():
+    output('Вы подходите ко входу в Канализацию. Это верхний уровень Подземелья, самый лёгкий. Войти?')
+    output('Внимание! Локация недоделана и с вероятностью 100% сломается!')
+    input_two(['Да', 'Нет'], [happening_choice, start_location])
+
+
+def caves():
+    output('Не реализовано')
+
+
+def catacombs():
+    output('Не реализовано')
+
+
+def hell_tower():
+    output('Не реализовано')
+
+
 get_tavern_and_startloc(tavern, start_location)
+get_start_location(start_location)

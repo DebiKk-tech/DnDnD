@@ -1,18 +1,11 @@
 from time import sleep
-from PyQt5.QtWidgets import QWidget, QInputDialog, QApplication
+from PyQt5.QtWidgets import  QInputDialog
 
 
 def get_form(getform):
     global form, pl
     form = getform
     pl = form.pl
-
-
-def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
-    for btn in grp.buttons():
-        btn.setVisible(True)
-    for btn2 in list(wrong_grp_1.buttons()) + list(wrong_grp_2.buttons()):
-        btn2.setVisible(False)
 
 
 def enable_buttons(grp, wrong_grp_1, wrong_grp_2):

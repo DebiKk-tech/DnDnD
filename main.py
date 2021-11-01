@@ -7,6 +7,7 @@ from input_functions import *
 from locations import *
 from creatures import *
 from tavern_functions import get_form_tav_funcs
+from tubes_functions import get_player_tubes
 
 
 class Ui_Form(QWidget):
@@ -26,6 +27,8 @@ class Ui_Form(QWidget):
         labels_update()
         get_form_locations(self, self.pl)
         get_player(self.pl)
+        get_player_creatures(self.pl)
+        get_player_tubes(self.pl)
         get_form_tav_funcs(self)
         output('DnDnD успешно запустилась. Приятной игры!')
         start_location()

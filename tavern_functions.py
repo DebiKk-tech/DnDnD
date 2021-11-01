@@ -20,7 +20,7 @@ def get_player(getpl):
 
 
 def games():
-    form.form2 = ThrowDicesForm(form)
+    form.form2 = ThrowDicesForm(form, pl)
     form.form2.show()
 
 
