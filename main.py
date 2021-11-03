@@ -7,7 +7,7 @@ from input_functions import *
 from locations import *
 from creatures import *
 from tavern_functions import get_form_tav_funcs
-from tubes_functions import get_player_tubes
+from underground_functions import get_player_tubes
 
 
 class Ui_Form(QWidget):
@@ -23,15 +23,25 @@ class Ui_Form(QWidget):
             btn.setVisible(False)
         self.bar_monster_health.setVisible(False)
         self.pl = Player()
+        self.pixmap = 1
         get_form(self)
         labels_update()
         get_form_locations(self, self.pl)
         get_player(self.pl)
         get_player_creatures(self.pl)
         get_player_tubes(self.pl)
+        get_player_and_form_fight(self.pl, self)
         get_form_tav_funcs(self)
         output('DnDnD успешно запустилась. Приятной игры!')
         start_location()
+
+    def setImage(self, pixmap):
+        if pixmap == False:
+            self.lbl_image.setVisible(False)
+        else:
+            self.lbl_image.setVisible(True)
+            self.pixmap = QPixmap(pixmap)
+            self.lbl_image.setPixmap(self.pixmap)
 
     def closeEvent(self, *event):
         profile_update()

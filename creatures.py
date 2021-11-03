@@ -2,6 +2,7 @@ from input_functions import *
 import sys
 from PyQt5.QtWidgets import QMessageBox
 from random import randint
+from fight import monster_label_update
 
 experience_multiplier = 20
 # Я не знаю, как охарактеризовать такие константы. В их названия трудно вложить смысловую нагрузку, поэтому я сделаю так
@@ -13,7 +14,7 @@ nolik = 0
 nolik_tochka_odin = 0.1
 TUBES_MONSTERS_LIST = ['крыса', 'крыса', 'крыса', 'крыса', 'крыса', 'крыса', 'гнолл', 'гнолл', 'гнолл', 'краб']
 CAVES_MONSTERS_LIST = ['скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'фантом', 'фантом',
-                       'фантом', 'фантом', 'летучая мышь', 'летучая мышь', 'летучая мышь', 'убийца', 'убийца']
+                       'фантом', 'фантом', 'летучая мышь', 'летучая мышь', 'летучая мышь']
 CATACOMBS_MONSTERS_LIST = ['паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'зомби', 'зомби', 'зомби', 'зомби',
                            'око зла', 'око зла']
 
@@ -53,7 +54,6 @@ class Player:
         if health == 'max' or self.health > self.maxhealth:
             self.health = self.maxhealth
             output(f'Ваши раны затянулись')
-        profile_update()
 
     def check_if_dead(self):
         if self.health <= 0:
@@ -70,9 +70,20 @@ class Player:
         sys.exit()
 
     def attack(self):
-        damage = self.weapon.damage * self.boost
+        damage = int(self.weapon.damage * self.boost)
         output(f'Вы атаковали монстра. Вы нанесли ему {damage} урона')
         return damage
+
+    def amulet_action(self):
+        if self.amulet.action != False:
+            if self.amulet.action == 'регенерация':
+                self.heal(self.amulet.power)
+                return 0
+            elif self.amulet.action == 'защита':
+                return self.amulet.power
+            else:
+                pass  # СДЕЛАТЬ ПОЗЖЕ!!!
+        return 0
 
 
 def get_player_creatures(getpl):
@@ -114,7 +125,7 @@ class Amulet:
             return f'Ваш амулет - {self.name.lower()}'
         elif self.action == 'регенерация':
             return f'Ваш амулет - {self.name.lower()}, он восстанавливает по {str(self.power)} единиц здоровья за ход'
-        elif self.action == 'макс.здоровье':
+        elif self.action == 'защита':
             return f'Ваш амулет - {self.name.lower()}, он увеличивает ваш максимальный запас здровья на ' \
                    f'{str(self.power)} единиц'
 
@@ -122,8 +133,9 @@ class Amulet:
 class Monster:
     def __init__(self, damage, health, reward):
         self.damage = damage
-        self.health = health
+        self.maxhealth = health
         self.reward = reward
+        self.health = health
 
     def attack(self, defence=0):
         damage_dealed = randint(self.damage[0], self.damage[1]) - pl.armor.defence - defence
@@ -132,6 +144,12 @@ class Monster:
         pl.health -= damage_dealed
         output(f'Монстр атаковал вас! Он нанёс вам {damage_dealed} урона')
         labels_update()
+
+    def get_damaged(self, damage):
+        self.health -= damage
+        if self.health < 0:
+            self.health = 0
+        monster_label_update(self)
 
     def check_if_dead(self):
         if self.health <= 0:
@@ -142,23 +160,3 @@ class Monster:
             return True
         return False
 
-
-def fight(get_monster):
-    global monster
-    monster = get_monster
-    input_three(['Атака', 'Лечение', 'Защита'], [attack, heal, defence])
-
-
-def attack():
-    monster.health -= pl.attack()
-    if not monster.check_if_dead():
-        output(f'здоровье монстра: {monster.health}')
-        monster.attack()
-
-
-def heal():
-    pass
-
-
-def defence():
-    pass

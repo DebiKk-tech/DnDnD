@@ -32,7 +32,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QProgressBar::chunk {
-     background-color: #05B8CC;
+     background-color: #FF0000;
  }</string>
    </property>
    <property name="value">
@@ -213,13 +213,13 @@
     <string notr="true">grp_two</string>
    </attribute>
   </widget>
-  <widget class="QLabel" name="img_label">
+  <widget class="QLabel" name="lbl_image">
    <property name="geometry">
     <rect>
-     <x>226</x>
-     <y>32</y>
-     <width>151</width>
-     <height>121</height>
+     <x>270</x>
+     <y>60</y>
+     <width>51</width>
+     <height>71</height>
     </rect>
    </property>
    <property name="text">
@@ -252,12 +252,25 @@
     <string>Ваши монеты: 20</string>
    </property>
   </widget>
+  <widget class="QLabel" name="lbl_monster_health">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>160</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="grp_two"/>
   <buttongroup name="grp_three"/>
   <buttongroup name="grp_four"/>
+  <buttongroup name="grp_two"/>
  </buttongroups>
 </ui>
