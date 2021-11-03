@@ -23,7 +23,7 @@ class Player:
     def __init__(self):
         self.maxhealth = 100
         self.health = 100
-        self.money = 99999
+        self.money = 20
         self.exp = 0
         self.level = 1
         self.boost = 1
@@ -32,6 +32,7 @@ class Player:
         self.amulet = Amulet('ничего', False, 0, 0)
         self.elixirs = 0
         self.potions = 0
+        self.points = 0
 
     def add_exp(self, exp):
         self.exp += exp

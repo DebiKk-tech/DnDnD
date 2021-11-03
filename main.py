@@ -25,7 +25,6 @@ class Ui_Form(QWidget):
         self.pl = Player()
         self.pixmap = 1
         get_form(self)
-        labels_update()
         get_form_locations(self, self.pl)
         get_player(self.pl)
         get_player_creatures(self.pl)
