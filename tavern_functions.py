@@ -1,5 +1,6 @@
 from input_functions import *
 from throw_dices_form import ThrowDicesForm
+from sqlite_functions import *
 NO_OUTPUT = 'Вывод не нужен'
 
 
@@ -33,8 +34,21 @@ def elixirs():
 
 
 def give_money():
-    print('Передача денег')
-    output('Не реализовано')
+    second_login = dialog_str_input('Кому передать?', 'Введите логин пользователя, с которым хотите поделиться'
+                                                      'монетами')
+    all_list = get_all_players()
+    logins_list = []
+    for elem in all_list:
+        logins_list.append(elem[0])
+    if second_login not in logins_list:
+        output('Нет такого пользователя!')
+    else:
+        n = dialog_int_input('Сколько передать?', 'Введите количество монет')
+        if n >= pl.money:
+            pl.money -= n
+            add_player_money(second_login, n)
+            labels_update()
+
 
 
 def buy_potions():

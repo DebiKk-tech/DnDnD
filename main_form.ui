@@ -216,14 +216,17 @@
   <widget class="QLabel" name="lbl_image">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>60</y>
-     <width>51</width>
-     <height>71</height>
+     <x>230</x>
+     <y>30</y>
+     <width>131</width>
+     <height>121</height>
     </rect>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="lbl_health">
@@ -265,12 +268,28 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="lbl_monster_name">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>0</y>
+     <width>391</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
  <buttongroups>
   <buttongroup name="grp_three"/>
-  <buttongroup name="grp_four"/>
   <buttongroup name="grp_two"/>
+  <buttongroup name="grp_four"/>
  </buttongroups>
 </ui>

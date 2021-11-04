@@ -11,12 +11,12 @@ edinichka = 1
 desyatochka = 10
 pyaterochka = 5
 nolik = 0
-nolik_tochka_odin = 0.1
+nolik_tochka_nol_pyat = 0.05
 TUBES_MONSTERS_LIST = ['крыса', 'крыса', 'крыса', 'крыса', 'крыса', 'крыса', 'гнолл', 'гнолл', 'гнолл', 'краб']
 CAVES_MONSTERS_LIST = ['скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'фантом', 'фантом',
                        'фантом', 'фантом', 'летучая мышь', 'летучая мышь', 'летучая мышь']
-CATACOMBS_MONSTERS_LIST = ['паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'зомби', 'зомби', 'зомби', 'зомби',
-                           'око зла', 'око зла']
+CATACOMBS_MONSTERS_LIST = ['паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'крысиный король', 'крысиный король',
+                           'крысиный король', 'крысиный король', 'око зла', 'око зла']
 
 
 class Player:
@@ -29,7 +29,7 @@ class Player:
         self.boost = 1
         self.weapon = Weapon('нож', 2, 0)
         self.armor = Armor('тканевая одежда', 0, 0)
-        self.amulet = Amulet('ничего', False, 0, 0)
+        self.amulet = Amulet('ничего', 'False', 0, 0)
         self.elixirs = 0
         self.potions = 0
         self.points = 0
@@ -44,7 +44,7 @@ class Player:
                 self.level += edinichka
                 self.maxhealth += desyatochka
                 if self.level % pyaterochka == nolik:
-                    self.boost += nolik_tochka_odin
+                    self.boost += nolik_tochka_nol_pyat
         if level_changed:
             output(f'Поздравляем! Ваш уровень теперь: {self.level}')
 
@@ -67,7 +67,7 @@ class Player:
         msg_death.setIcon(QMessageBox.Warning)
         msg_death.setDefaultButton(QMessageBox.Close)
         msg_death.exec_()
-        profile_update()
+        profile_update(dead=True)
         sys.exit()
 
     def attack(self):
@@ -76,7 +76,7 @@ class Player:
         return damage
 
     def amulet_action(self):
-        if self.amulet.action != False:
+        if self.amulet.action != 'False':
             if self.amulet.action == 'регенерация':
                 self.heal(self.amulet.power)
                 return 0
@@ -120,7 +120,7 @@ class Amulet:
         self.power = power
 
     def __str__(self):
-        if not self.action:
+        if self.action == 'False':
             return 'У вас нет амулета'
         elif self.action == 'доп.урон':
             return f'Ваш амулет - {self.name.lower()}'
@@ -132,11 +132,13 @@ class Amulet:
 
 
 class Monster:
-    def __init__(self, damage, health, reward):
+    def __init__(self, name, damage, health, reward, img_way):
+        self.name = name
         self.damage = damage
         self.maxhealth = health
         self.reward = reward
         self.health = health
+        self.image = img_way
 
     def attack(self, defence=0):
         damage_dealed = randint(self.damage[0], self.damage[1]) - pl.armor.defence - defence

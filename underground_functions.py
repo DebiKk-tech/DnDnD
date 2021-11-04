@@ -14,15 +14,15 @@ MUCH_MONEY = 'много денег'
 MONSTER = 'монстр'
 
 MONSTERS_DICT = {
-    'крыса': [(1, 3), 4, (8, 1)],
-    'гнолл': [(4, 8), 10, (15, 2)],
-    'краб': [(2, 5), 50, (30, 3)],
-    'скелет': [(10, 15), 20, (30, 2)],
-    'фантом': [(4, 8), 100, (30, 3)],
-    'летучая мышь': [(15, 20), 40, (50, 4)],
-    'паук': [(30, 50), 50, (100, 6)],
-    'зомби': [(25, 40), 150, (200, 7)],
-    'око зла': [(60, 70), 100, (300, 10)]
+    'крыса': ['крыса', (1, 3), 4, (8, 1), 'images/rat.png'],
+    'гнолл': ['гнолл', (4, 8), 10, (15, 2), 'images/gnoll.png'],
+    'краб': ['краб', (2, 5), 50, (30, 3), 'images/crab.png'],
+    'скелет': ['скелет', (10, 15), 20, (30, 2), 'images/skeleton.png'],
+    'фантом': ['фантом', (4, 8), 100, (30, 3), 'images/fantom.png'],
+    'летучая мышь': ['летучая мышь', (15, 20), 40, (50, 4), 'images/bat.png'],
+    'паук': ['паук', (30, 50), 50, (100, 6), 'images/spider.png'],
+    'крысиный король': ['крысиный король', (25, 40), 150, (200, 7), 'images/rat_king.png'],
+    'око зла': ['око зла', (60, 70), 100, (300, 10), 'images/evil_eye.png']
 }
 
 HAPPENINGS_LIST = [MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER,
@@ -81,7 +81,7 @@ def happening_choice(MONSTERS_LIST, location):
     elif happening == MONSTER:
         monster_name = choice(MONSTERS_LIST)
         monster = MONSTERS_DICT[monster_name]
-        monster = Monster(monster[0], monster[1], monster[2])
+        monster = Monster(*monster)
         output(f'На вас напал монстр: {monster_name}')
         fight(monster, location)
         return True

@@ -54,7 +54,7 @@
     <rect>
      <x>30</x>
      <y>200</y>
-     <width>201</width>
+     <width>371</width>
      <height>31</height>
     </rect>
    </property>
@@ -118,7 +118,7 @@
     <string>Вход</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_2">
+  <widget class="QRadioButton" name="radio_registration">
    <property name="geometry">
     <rect>
      <x>190</x>

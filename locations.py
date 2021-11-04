@@ -2,6 +2,7 @@ from input_functions import *
 from tavern_functions import *
 from creatures import *
 from underground_functions import *
+from rating_form import *
 WEAPON_DICT = {
     'Топор': Weapon('Топор', 5, 1200),
     'Короткий меч': Weapon('Короткий меч', 7, 3000),
@@ -29,7 +30,7 @@ AMULETS_DICT = {
     'Большой камень регенерации': (Amulet('Большой камень регенерации', 'регенерация', 10000, 5),
                                    'Этот камень сильно повысит вашу регенерацию'),
     'Камень защиты': (Amulet('Камень защиты', 'защита', 3000, 2),
-                                      'Этот камень увеличит эффективность вашей защитной стойки'),
+                      'Этот камень увеличит эффективность вашей защитной стойки'),
     'Религиозный амулет культиста': (Amulet('Религиозный амулет культиста', 'доп.урон', 10000, 20),
                                      'Это странный артефакт, найденный у сумасшедшего культиста. Никто не знает, что '
                                      'он делает'),
@@ -44,8 +45,8 @@ def get_form_locations(getform, getpl):
 
 
 def liders_table():
-    pl.health = 0
-    pl.check_if_dead()
+    form.liders_form = RatingForm(form)
+    form.liders_form.show()
 
 
 def shop(*args):
@@ -151,7 +152,7 @@ def catacombs():
 
 
 def hell_tower():
-    output('Вы подходите к Адской Башне. Она сейчас неактивна, и сразиться с рейдовым боссом не получится. Увы')
+    output('Вы подходите к Адской Башне. Она сейчас неактивна, и сразиться с боссом не получится. Увы')
 
 
 get_tavern_and_startloc(tavern, start_location)

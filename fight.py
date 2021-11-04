@@ -1,7 +1,5 @@
 from input_functions import *
 from creatures import *
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QLabel
 
 defence_value = 0
 
@@ -25,11 +23,9 @@ def fight(get_monster, get_location):
     defence_value = 0
     monster = get_monster
     monster_label_update(monster)
-    form.bar_monster_health.setVisible(True)
-    form.bar_monster_health.setMaximum(monster.health)
-    form.bar_monster_health.setMinimum(0)
-    form.bar_monster_health.setValue(monster.health)
-    form.setImage('images/rat.png')
+    form.lbl_monster_name.setText(monster.name.capitalize())
+    form.set_bar_monster_health_values(0, monster.health)
+    form.set_image(monster.image)
     input_three(['Атака', 'Лечение', 'Защита'], [attack, heal, defence])
 
 
@@ -41,6 +37,8 @@ def attack():
         next_turn()
     else:
         form.bar_monster_health.setVisible(False)
+        form.lbl_monster_name.setText('')
+        form.set_image(False)
         location('Монстр повержен')
 
 
