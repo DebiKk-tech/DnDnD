@@ -3,6 +3,7 @@ from tavern_functions import *
 from creatures import *
 from underground_functions import *
 from rating_form import *
+from constants import*
 WEAPON_DICT = {
     'Топор': Weapon('Топор', 5, 1200),
     'Короткий меч': Weapon('Короткий меч', 7, 3000),
@@ -35,7 +36,6 @@ AMULETS_DICT = {
                                      'Это странный артефакт, найденный у сумасшедшего культиста. Никто не знает, что '
                                      'он делает'),
 }
-NO_OUTPUT = 'Вывод не нужен'
 
 
 def get_form_locations(getform, getpl):
@@ -50,92 +50,85 @@ def liders_table():
 
 
 def shop(*args):
-    if args[0] != 'Вывод не нужен':
-        output('Вы пришли в магазин. Тут продается оружие, броня и амулеты. Искатели приходят сюда, чтобы купить себе '
-               'аммуницию для похода в Подземелье')
+    if args[0] != NO_OUTPUT:
+        output(ENTERING_SHOP)
         output(str(pl.weapon) + '\n' + str(pl.armor) + '\n' + str(pl.amulet))
-    input_four(['Оружие', 'Броня', 'Амулеты', 'Уйти'], [shop_weapon, shop_armor, shop_amulets, start_location])
+    input_four([WEAPON, ARMOR, AMULETS, LEAVE], [shop_weapon, shop_armor, shop_amulets, start_location])
 
 
 def tavern(*args):
-    if args[0] != 'Вывод не нужен':
-        output('Вы пришли в таверну. Тут люди пьют различные напитки, играют в игры и иногда передают друг другу '
-               'монеты')
-    input_four(['Азартные игры', 'Взять выпивки', 'Передать монеты', 'Уйти'], [games, elixirs, give_money,
+    if args[0] != NO_OUTPUT:
+        output(ENTERING_TAVERN)
+    input_four([GAMES, DRINKS, GIVE_MONEY, LEAVE], [games, elixirs, give_money,
                                                                                start_location])
 
 
 def underground():
-    output('Вы спускаетесь в Подземелье..')
+    output(ENTERING_UNDERGROUND)
     select_location()
 
 
 def start_location():
-    output('Перед Вами встал выбор: пойти в магазин, в таверну или отправиться в атаку')
+    output(START_LOCATION_TEXT)
     input_four(['Магазин', 'Таверна', 'Подземелье', 'Таблица лидеров'], [shop, tavern, underground, liders_table])
 
 
 def shop_weapon():
-    list_of_strings = list(WEAPON_DICT.keys())
-    list_of_strings = list(map(lambda x: str(x + ' - ' + str(WEAPON_DICT[x].damage) + ' урона, '
-                                             + str(WEAPON_DICT[x].price) + ' монет'), list_of_strings))
-    weapon = dialog_list_input('Оружейный ассортимент', 'Выберите, что хотите купить',
-                                             ['Ничего'] + list_of_strings)
-    if weapon != 'Ничего':
-        weapon = weapon.split(' - ')[0]
-        if pl.money < WEAPON_DICT[weapon].price:
-            output('Недостаточно монет!')
-        else:
-            output(f'Вы приобрели: {weapon.lower()}')
-            pl.money -= WEAPON_DICT[weapon].price
-            pl.weapon = WEAPON_DICT[weapon]
-    labels_update()
-    shop(NO_OUTPUT)
+    bought_tovar_list = buy(WEAPON_DICT, ['Оружейный ассортимент', 'Выберите, что хотите купить'], weapons=True)
+    if bought_tovar_list[0]:
+        pl.weapon = bought_tovar_list[1]
 
 
 def shop_armor():
-    list_of_strings = list(ARMOR_DICT.keys())
-    list_of_strings = list(map(lambda x: str(x + ' - ' + str(ARMOR_DICT[x].defence) + ' защиты, '
-                                             + str(ARMOR_DICT[x].price) + ' монет'), list_of_strings))
-    armor = dialog_list_input('Оружейный ассортимент', 'Выберите, что хотите купить',
-                              ['Ничего'] + list_of_strings)
-    if armor != 'Ничего':
-        armor = armor.split(' - ')[0]
-        if pl.money < ARMOR_DICT[armor].price:
-            output('Недостаточно монет!')
-        else:
-            output(f'Вы приобрели: {armor.lower()}')
-            pl.money -= ARMOR_DICT[armor].price
-            pl.armor = ARMOR_DICT[armor]
-    labels_update()
-    shop(NO_OUTPUT)
+    bought_tovar_list = buy(ARMOR_DICT, ['Ассортимент брони', 'Выберите, что хотите купить'], armor=True)
+    if bought_tovar_list[0]:
+        pl.armor = bought_tovar_list[1]
 
 
 def shop_amulets():
-    list_of_strings = list(AMULETS_DICT.keys())
-    list_of_strings = list(map(lambda x: str(x) + ' - ' + AMULETS_DICT[x][-1] + ', стоит ' +
-                               str(AMULETS_DICT[x][0].price), list_of_strings))
-    amulet = dialog_list_input('Ассортимент амулетов', 'Выберите, что хотите купить',
-                               ['Ничего'] + list_of_strings)
-    if amulet != 'Ничего':
-        amulet = amulet.split(' - ')[0]
-        if pl.money < AMULETS_DICT[amulet][0].price:
-            output('Недостаточно монет!')
+    bought_tovar_list = buy(AMULETS_DICT, ['Ассортимент амулетов', 'Выберите, что хотите купить'], amulets=True)
+    if bought_tovar_list[0]:
+        pl.amulet = bought_tovar_list[1]
+
+
+def buy(DICT, arguments, weapons=False, armor=False, amulets=False):
+    list_of_strings = list(DICT.keys())
+    if amulets:
+        list_of_strings = list(map(lambda x: str(x) + ' - ' + DICT[x][-1] + ', стоит ' +
+                                   str(DICT[x][0].price), list_of_strings))
+    elif weapons:
+        list_of_strings = list(map(lambda x: str(x + ' - ' + str(DICT[x].damage) + ' урона, '
+                                                 + str(DICT[x].price) + ' монет'), list_of_strings))
+    elif armor:
+        list_of_strings = list(map(lambda x: str(x + ' - ' + str(DICT[x].defence) + ' защиты, '
+                                                 + str(DICT[x].price) + ' монет'), list_of_strings))
+    tovar = dialog_list_input(*arguments, [NOTHING] + list_of_strings)
+    bought = False
+    if tovar != NOTHING:
+        tovar = tovar.split(' - ')[0]
+        name = tovar.lower()
+        if amulets:
+            tovar = DICT[tovar][0]
         else:
-            output(f'Вы приобрели: {amulet.lower()}')
-            pl.money -= AMULETS_DICT[amulet][0].price
-            pl.amulet = AMULETS_DICT[amulet][0]
+            tovar = DICT[tovar]
+        if pl.money < tovar.price:
+            output(NOT_ENOUGH_MONEY)
+        else:
+            output(f'Вы приобрели: {name}')
+            pl.money -= tovar.price
+            bought = True
     shop(NO_OUTPUT)
     labels_update()
+    return [bought, tovar]
 
 
 def select_location():
-    output('Выберите локацию')
-    input_four(['Канализация', 'Пещеры', 'Катакомбы', 'Адская башня'], [tubes, caves, catacombs, hell_tower])
+    output(SELECT_LOCATION)
+    input_four([TUBES, CAVES, CATACOMBS, HELLTOWER], [tubes, caves, catacombs, hell_tower])
 
 
 def tubes():
-    output('Вы подходите ко входу в Канализацию. Это верхний уровень Подземелья, самый лёгкий. Войти?')
+    output(ENTERING_TUBES)
     input_two(['Да', 'Нет'], [tubes_happening_choice, start_location])
 
 

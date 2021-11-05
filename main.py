@@ -10,6 +10,7 @@ from creatures import *
 from tavern_functions import get_form_tav_funcs
 from underground_functions import get_player_tubes
 from login_form import LoginForm
+from constants import *
 
 
 class Ui_Form(QWidget):
@@ -27,7 +28,6 @@ class Ui_Form(QWidget):
         self.pl = Player()
         self.loginForm = LoginForm(self)
         self.loginForm.show()
-        self.pixmap = 1
         get_form(self)
         get_form_locations(self, self.pl)
         get_player(self.pl)
@@ -35,7 +35,7 @@ class Ui_Form(QWidget):
         get_player_tubes(self.pl)
         get_player_and_form_fight(self.pl, self)
         get_form_tav_funcs(self)
-        self.pln_output.setPlainText('\n\nDnDnD успешно запустилась. Приятной игры!')
+        self.pln_output.setPlainText(SUCCESSFUL_START)
         start_location()
 
     def set_image(self, pixmap):

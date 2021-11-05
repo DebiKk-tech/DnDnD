@@ -71,6 +71,7 @@ def output(text):
 
 
 def profile_update(dead=False):
+    pl.points = pl.money + (pl.level - 1) * 20 + pl.exp
     change_player(form.login, pl, dead)
 
 
