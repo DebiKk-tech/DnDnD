@@ -1,9 +1,10 @@
-import sys
+# -*- coding: utf-8 -*-
 
-from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QWidget, QPlainTextEdit
+import sys
+from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QPixmap
 
+from main_form_design import Ui_Form
 from input_functions import *
 from locations import *
 from creatures import *
@@ -13,10 +14,10 @@ from login_form import LoginForm
 from constants import *
 
 
-class Ui_Form(QWidget):
+class MainForm(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main_form.ui', self)
+        self.setupUi(self)
         self.pln_output.setReadOnly(True)
         for btn in self.grp_two.buttons():
             btn.setVisible(False)
@@ -65,8 +66,10 @@ class Ui_Form(QWidget):
         self.pl.exp = player_profile[9]
         self.pl.elixirs = player_profile[10]
         self.pl.poitons = player_profile[11]
-        self.pl.maxhealth = 100 + (self.pl.level - 1) * 10
-        self.pl.boost = 1 + (self.pl.level // 5 * 0.1)
+        # Здесь, 100 - исходное максимальное здоровье, а pl.level - 1, т.к. на первом уровне нет прибавки к maxhealth
+        self.pl.maxhealth = 100 + (self.pl.level - 1) * MAXHEALTH_PLUS
+        # Здесь, 1 - исходный множитель урона
+        self.pl.boost = 1 + (self.pl.level // EVERY_THIS_LEVEL_BOOST_PLUS * BOOST_PLUS)
         labels_update()
 
     def set_bar_monster_health_values(self, minimum, maximum):
@@ -84,7 +87,7 @@ def except_hook(cls, exception, traceback):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    form = Ui_Form()
+    form = MainForm()
     form.show()
     form.setVisible(False)
     sys.excepthook = except_hook

@@ -1,16 +1,17 @@
-from PyQt5.QtWidgets import QWidget, QApplication
-from PyQt5 import uic
-from PyQt5.QtGui import QCloseEvent
-import sys
+# -*- coding: utf-8 -*-
+
+from PyQt5.QtWidgets import QWidget
+from login_form_design import Ui_Form
 
 from errors import *
 from sqlite_functions import *
+from constants import *
 
 
-class LoginForm(QWidget):
+class LoginForm(QWidget, Ui_Form):
     def __init__(self, parent):
         super().__init__()
-        uic.loadUi('login_form.ui', self)
+        self.setupUi(self)
         self.radio_login.setChecked(True)
         self.parent = parent
         self.btn_input.clicked.connect(self.set_player_to_parent)
@@ -33,17 +34,17 @@ class LoginForm(QWidget):
             self.parent.setVisible(True)
             self.close()
         except LoginEmptyError:
-            self.lbl_msg.setText('Введите логин!')
+            self.lbl_msg.setText(LOGIN_INPUT)
         except LoginIsntUniqueError:
-            self.lbl_msg.setText('Логин занят!')
+            self.lbl_msg.setText(LOGIN_ISNT_UNIQUE)
         except LoginIncorrectError:
-            self.lbl_msg.setText('Неверный логин!')
+            self.lbl_msg.setText(WRONG_LOGIN)
         except PasswordEmptyError:
-            self.lbl_msg.setText('Введите пароль!')
+            self.lbl_msg.setText(PASSWORD_INPUT)
         except PasswordIncorrectError:
-            self.lbl_msg.setText('Пароль неверный!')
+            self.lbl_msg.setText(WRONG_PASSWORD)
         except PlayerIsDeadError:
-            self.lbl_msg.setText('Игрок уже умер. Создайте новый профиль')
+            self.lbl_msg.setText(PLAYER_IS_DEAD)
 
 
 def check_login(login, registration=False):

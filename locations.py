@@ -1,40 +1,41 @@
+# -*- coding: utf-8 -*-
+
 from input_functions import *
 from tavern_functions import *
 from creatures import *
 from underground_functions import *
 from rating_form import *
 from constants import*
-WEAPON_DICT = {
-    'Топор': Weapon('Топор', 5, 1200),
-    'Короткий меч': Weapon('Короткий меч', 7, 3000),
-    'Цеп': Weapon('Цеп', 10, 5000),
-    'Булава': Weapon('Булава', 15, 7500),
-    'Средний меч': Weapon('Средний меч', 20, 10000),
-    'Длинный меч': Weapon('Длинный меч', 32, 13000),
-    'Алебарда': Weapon('Алебарда', 40, 20000),
-    'Клеймор': Weapon('Клеймор', 50, 30000),
-    'Меч Судеб': Weapon('Меч Судеб', 70, 60000),
-    'Клинок Армагеддона': Weapon('Клинок Армагеддона', 120, '???')
+weapon_dict = {
+    AXE: Weapon(AXE, 5, 1200),
+    SHORT_SWORD: Weapon(SHORT_SWORD, 7, 3000),
+    CEP: Weapon(CEP, 10, 5000),
+    MACE: Weapon(MACE, 15, 7500),
+    MID_SWORD: Weapon(MID_SWORD, 20, 10000),
+    LONG_SWORD: Weapon(LONG_SWORD, 32, 13000),
+    ALEBARD: Weapon(ALEBARD, 40, 20000),
+    CLAYMORE: Weapon(CLAYMORE, 50, 30000),
+    SWORD_OF_DOOM: Weapon(SWORD_OF_DOOM, 70, 60000)
 }
-ARMOR_DICT = {
-    'Кожаная броня': Armor('Кожаная броня', 1, 1500),
-    'Кожаная броня с металлическими вставками': Armor('Кожаная броня с металлическими вставками', 2, 3000),
-    'Железная броня': Armor('Железная броня', 3, 5000),
-    'Стальная броня': Armor('Стальная броня', 5, 7500),
-    'Магически усиленная стальная броня': Armor('Магически усиленная стальная броня', 7, 10000),
-    'Мифриловая броня': Armor('Мифриловая броня', 10, 20000),
-    'Доспех Армагеддона': Armor('Доспех Армагеддона', 20, '???')
+armor_dict = {
+    LEATHER_ARMOR: Armor(LEATHER_ARMOR, 1, 1500),
+    HARDENED_LEATHER_ARNOR: Armor(HARDENED_LEATHER_ARNOR, 2, 3000),
+    IRON_ARMOR: Armor(IRON_ARMOR, 3, 5000),
+    STEEL_ARMOR: Armor(STEEL_ARMOR, 5, 7500),
+    MAGIC_STEEL_ARMOR: Armor(MAGIC_STEEL_ARMOR, 7, 10000),
+    MYTHRIL_ARMOR: Armor(MYTHRIL_ARMOR, 10, 20000)
 }
-AMULETS_DICT = {
-    'Камень регенерации': (Amulet('Камень регенерации', 'регенерация', 2000, 2),
-                           'Этот камень повысит вашу регенерацию'),
-    'Большой камень регенерации': (Amulet('Большой камень регенерации', 'регенерация', 10000, 5),
-                                   'Этот камень сильно повысит вашу регенерацию'),
-    'Камень защиты': (Amulet('Камень защиты', 'защита', 3000, 2),
-                      'Этот камень увеличит эффективность вашей защитной стойки'),
-    'Религиозный амулет культиста': (Amulet('Религиозный амулет культиста', 'доп.урон', 10000, 20),
-                                     'Это странный артефакт, найденный у сумасшедшего культиста. Никто не знает, что '
-                                     'он делает'),
+# Строки в этом словаре отвечают за описание амулета в QInputDialog
+amulets_dict = {
+    REGEN_STONE: (Amulet(REGEN_STONE, REGENERATION, 2000, 2),
+                  'Этот камень повысит вашу регенерацию'),
+    BIG_REGEN_STONE: (Amulet(BIG_REGEN_STONE, REGENERATION, 10000, 5),
+                      'Этот камень сильно повысит вашу регенерацию'),
+    DEFENCE_STONE: (Amulet(DEFENCE_STONE, DEFENCE, 3000, 2),
+                    'Этот камень увеличит эффективность вашей защитной стойки'),
+    AMULET_OF_CULTIST: (Amulet(AMULET_OF_CULTIST, PLUS_DAMAGE, 10000, 20),
+                        'Это странный артефакт, найденный у сумасшедшего культиста. Никто не знает, что '
+                        'он делает'),
 }
 
 
@@ -59,7 +60,7 @@ def shop(*args):
 def tavern(*args):
     if args[0] != NO_OUTPUT:
         output(ENTERING_TAVERN)
-    input_four([GAMES, DRINKS, GIVE_MONEY, LEAVE], [games, elixirs, give_money,
+    input_four([GAMES, DRINKS, GIVE_MONEY, LEAVE], [games, drinks, give_money,
                                                                                start_location])
 
 
@@ -70,23 +71,23 @@ def underground():
 
 def start_location():
     output(START_LOCATION_TEXT)
-    input_four(['Магазин', 'Таверна', 'Подземелье', 'Таблица лидеров'], [shop, tavern, underground, liders_table])
+    input_four([SHOP, TAVERN, UNDERGROUND, LEADERS_TABLE], [shop, tavern, underground, liders_table])
 
 
 def shop_weapon():
-    bought_tovar_list = buy(WEAPON_DICT, ['Оружейный ассортимент', 'Выберите, что хотите купить'], weapons=True)
+    bought_tovar_list = buy(weapon_dict, [WEAPON_ASSORTIMENT, CHOICE_WHAT_TO_BUY], weapons=True)
     if bought_tovar_list[0]:
         pl.weapon = bought_tovar_list[1]
 
 
 def shop_armor():
-    bought_tovar_list = buy(ARMOR_DICT, ['Ассортимент брони', 'Выберите, что хотите купить'], armor=True)
+    bought_tovar_list = buy(armor_dict, [ARMOR_ASSORTIMENT, CHOICE_WHAT_TO_BUY], armor=True)
     if bought_tovar_list[0]:
         pl.armor = bought_tovar_list[1]
 
 
 def shop_amulets():
-    bought_tovar_list = buy(AMULETS_DICT, ['Ассортимент амулетов', 'Выберите, что хотите купить'], amulets=True)
+    bought_tovar_list = buy(amulets_dict, [AMULETS_ASSORTIMENT, CHOICE_WHAT_TO_BUY], amulets=True)
     if bought_tovar_list[0]:
         pl.amulet = bought_tovar_list[1]
 
@@ -129,23 +130,21 @@ def select_location():
 
 def tubes():
     output(ENTERING_TUBES)
-    input_two(['Да', 'Нет'], [tubes_happening_choice, start_location])
+    input_two([YES, NO], [tubes_happening_choice, start_location])
 
 
 def caves():
-    output('Вы подходите ко входу в Пещеры. Это средний уровень Подземелья. Монстры здесь на порядок сильнее '
-           'монстров из Канализации. Войти?')
-    input_two(['Да', 'Нет'], [caves_happening_choice, start_location])
+    output(ENTERING_CAVES)
+    input_two([YES, NO], [caves_happening_choice, start_location])
 
 
 def catacombs():
-    output('Вы подходите ко входу в Катакомбы. Это самый глубокий уровень Подземелья. Монстры здесь настолько сильные, '
-           'что даже опытные искатели побаиваются в них заходить. Войти?')
-    input_two(['Да', 'Нет'], [catacombs_happening_choice, start_location])
+    output(ENTERING_CATACOMBS)
+    input_two([YES, NO], [catacombs_happening_choice, start_location])
 
 
 def hell_tower():
-    output('Вы подходите к Адской Башне. Она сейчас неактивна, и сразиться с боссом не получится. Увы')
+    output(HELLTOWER_UNACTIVE)
 
 
 get_tavern_and_startloc(tavern, start_location)

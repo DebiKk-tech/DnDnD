@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from input_functions import *
 from creatures import *
 from random import choice, randint
 from fight import *
+from constants import  *
 
 
 def get_player_tubes(getpl):
@@ -9,73 +12,45 @@ def get_player_tubes(getpl):
     pl = getpl
 
 
-SOME_MONEY = 'немного денег'
-MUCH_MONEY = 'много денег'
-MONSTER = 'монстр'
-
-MONSTERS_DICT = {
-    'крыса': ['крыса', (1, 3), 4, (8, 1), 'images/rat.png'],
-    'гнолл': ['гнолл', (4, 8), 10, (15, 2), 'images/gnoll.png'],
-    'краб': ['краб', (2, 5), 50, (30, 3), 'images/crab.png'],
-    'скелет': ['скелет', (10, 15), 20, (30, 2), 'images/skeleton.png'],
-    'фантом': ['фантом', (4, 8), 100, (30, 3), 'images/fantom.png'],
-    'летучая мышь': ['летучая мышь', (15, 20), 40, (50, 4), 'images/bat.png'],
-    'паук': ['паук', (30, 50), 50, (100, 6), 'images/spider.png'],
-    'крысиный король': ['крысиный король', (25, 40), 150, (200, 7), 'images/rat_king.png'],
-    'око зла': ['око зла', (60, 70), 100, (300, 10), 'images/evil_eye.png']
-}
-
-HAPPENINGS_LIST = [MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER, MONSTER,
-                   SOME_MONEY, SOME_MONEY, SOME_MONEY, SOME_MONEY, SOME_MONEY, MUCH_MONEY]
-
-
 def get_start_location(getstartloc):
     global start_location
     start_location = getstartloc
 
 
-# Зачем в эту функцию я добавил такой, казалось бы, странный условный оператор, который выполняет одно и то же в обоих
-# случаях? Во втором, когда он проверяет условие, он выполняет функцию happening_choice, а мне это не надо
+# Три эти однострочные функции были созданы для привязки к локации, а также к кнопке "Да" после события в Подземелье
 def tubes_happening_choice(*args):
-    if args[0] == 'Монстр повержен':
-        output('Вы хотели бы пойти дальше?')
-        input_two(['Да', 'Нет'], [tubes_happening_choice, start_location])
-        return False
-    elif not happening_choice(TUBES_MONSTERS_LIST, tubes_happening_choice):
-        output('Вы хотели бы пойти дальше?')
-        input_two(['Да', 'Нет'], [tubes_happening_choice, start_location])
+    prom_happening_choice(*args, MONSTERS_LIST=TUBES_MONSTERS_LIST, location=tubes_happening_choice)
 
 
 def caves_happening_choice(*args):
-    if args[0] == 'Монстр повержен':
-        output('Вы хотели бы пойти дальше?')
-        input_two(['Да', 'Нет'], [caves_happening_choice, start_location])
-        return False
-    elif not happening_choice(CAVES_MONSTERS_LIST, caves_happening_choice):
-        output('Вы хотели бы пойти дальше?')
-        input_two(['Да', 'Нет'], [caves_happening_choice, start_location])
+    prom_happening_choice(*args, MONSTERS_LIST=CAVES_MONSTERS_LIST, location=caves_happening_choice)
 
 
 def catacombs_happening_choice(*args):
-    if args[0] == 'Монстр повержен':
-        output('Вы хотели бы пойти дальше?')
-        input_two(['Да', 'Нет'], [catacombs_happening_choice, start_location])
+    prom_happening_choice(*args, MONSTERS_LIST=CATACOMBS_MONSTERS_LIST, location=catacombs_happening_choice)
+
+
+def prom_happening_choice(*args, MONSTERS_LIST, location):
+    if args[0] == MONSTER_DEFEATED:
+        output(GO_FURTHER)
+        input_two([YES, NO], [location, start_location])
         return False
-    elif not happening_choice(CATACOMBS_MONSTERS_LIST, catacombs_happening_choice):
-        output('Вы хотели бы пойти дальше?')
-        input_two(['Да', 'Нет'], [catacombs_happening_choice, start_location])
+    else:
+        monster_attacks = happening_choice(MONSTERS_LIST, location)
+        if not monster_attacks:
+            output(GO_FURTHER)
+            input_two([YES, NO], [location, start_location])
 
 
 def happening_choice(MONSTERS_LIST, location):
     happening = choice(HAPPENINGS_LIST)
-    if happening == SOME_MONEY:
-        found = randint(1, 6)
-        output(f'Вы нашли немного монет, а именно, {found}')
-        pl.money += found
-        labels_update()
-    elif happening == MUCH_MONEY:
-        found = randint(10, 60)
-        output(f'Вы нашли много монет, а именно, {found}')
+    if happening != MONSTER:
+        if happening == SOME_MONEY:
+            found = randint(SOME_MONEY_MIN, SOME_MONEY_MAX)
+            output(f'Вы нашли немного монет, а именно, {found}')
+        elif happening == MUCH_MONEY:
+            found = randint(MUCH_MONEY_MIN, MUCH_MONEY_MAX)
+            output(f'Вы нашли много монет, а именно, {found}')
         pl.money += found
         labels_update()
     elif happening == MONSTER:

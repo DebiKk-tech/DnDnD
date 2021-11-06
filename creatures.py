@@ -1,22 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from input_functions import *
 import sys
 from PyQt5.QtWidgets import QMessageBox
 from random import randint
 from fight import monster_label_update
-
-experience_multiplier = 20
-# Я не знаю, как охарактеризовать такие константы. В их названия трудно вложить смысловую нагрузку, поэтому я сделаю так
-# Тем более они, используются только один раз
-edinichka = 1
-desyatochka = 10
-pyaterochka = 5
-nolik = 0
-nolik_tochka_nol_pyat = 0.05
-TUBES_MONSTERS_LIST = ['крыса', 'крыса', 'крыса', 'крыса', 'крыса', 'крыса', 'гнолл', 'гнолл', 'гнолл', 'краб']
-CAVES_MONSTERS_LIST = ['скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'скелет', 'фантом', 'фантом',
-                       'фантом', 'фантом', 'летучая мышь', 'летучая мышь', 'летучая мышь']
-CATACOMBS_MONSTERS_LIST = ['паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'паук', 'крысиный король', 'крысиный король',
-                           'крысиный король', 'крысиный король', 'око зла', 'око зла']
+from constants import *
 
 
 class Player:
@@ -37,24 +26,24 @@ class Player:
     def add_exp(self, exp):
         self.exp += exp
         level_changed = False
-        while self.exp >= self.level * experience_multiplier:
-            if self.exp >= self.level * experience_multiplier:
-                self.exp -= self.level * experience_multiplier
+        while self.exp >= self.level * EXPERIENCE_MULTIPLIER:
+            if self.exp >= self.level * EXPERIENCE_MULTIPLIER:
+                self.exp -= self.level * EXPERIENCE_MULTIPLIER
                 level_changed = True
-                self.level += edinichka
-                self.maxhealth += desyatochka
-                if self.level % pyaterochka == nolik:
-                    self.boost += nolik_tochka_nol_pyat
+                self.level += 1
+                self.maxhealth += MAXHEALTH_PLUS
+                if self.level % EVERY_THIS_LEVEL_BOOST_PLUS == 0:
+                    self.boost += BOOST_PLUS
         if level_changed:
             output(f'Поздравляем! Ваш уровень теперь: {self.level}')
 
     def heal(self, health):
-        if health != 'max':
+        if health != MAX:
             self.health += health
             output(f'Вы восстановили {health} здоровья')
-        if health == 'max' or self.health > self.maxhealth:
+        if health == MAX or self.health > self.maxhealth:
             self.health = self.maxhealth
-            output(f'Ваши раны затянулись')
+            output(FULLY_HEALED)
 
     def check_if_dead(self):
         if self.health <= 0:
@@ -62,8 +51,8 @@ class Player:
 
     def die(self):
         msg_death = QMessageBox()
-        msg_death.setWindowTitle('Конец игры')
-        msg_death.setText('Вы умерли! Игра окончена')
+        msg_death.setWindowTitle(GAME_OVER)
+        msg_death.setText(YOU_DEAD)
         msg_death.setIcon(QMessageBox.Warning)
         msg_death.setDefaultButton(QMessageBox.Close)
         msg_death.exec_()
@@ -75,15 +64,15 @@ class Player:
         output(f'Вы атаковали монстра. Вы нанесли ему {damage} урона')
         return damage
 
-    def amulet_action(self):
+    def amulet_action(self, boss_battle=False):
+        # Здесь False текстом, т.к. из БД это значение приходит именно в виде текста, и оно не всегда False или True,
+        # так что приходится использовать строку
         if self.amulet.action != 'False':
-            if self.amulet.action == 'регенерация':
+            if self.amulet.action == REGENERATION:
                 self.heal(self.amulet.power)
                 return 0
-            elif self.amulet.action == 'защита':
+            elif self.amulet.action == DEFENCE or boss_battle:
                 return self.amulet.power
-            else:
-                pass  # СДЕЛАТЬ ПОЗЖЕ!!!
         return 0
 
 
@@ -121,13 +110,13 @@ class Amulet:
 
     def __str__(self):
         if self.action == 'False':
-            return 'У вас нет амулета'
-        elif self.action == 'доп.урон':
+            return DONT_HAVE_AMULET
+        elif self.action == PLUS_DAMAGE:
             return f'Ваш амулет - {self.name.lower()}'
-        elif self.action == 'регенерация':
+        elif self.action == REGENERATION:
             return f'Ваш амулет - {self.name.lower()}, он восстанавливает по {str(self.power)} единиц здоровья за ход'
-        elif self.action == 'защита':
-            return f'Ваш амулет - {self.name.lower()}, он увеличивает ваш максимальный запас здровья на ' \
+        elif self.action == DEFENCE:
+            return f'Ваш амулет - {self.name.lower()}, он увеличивает эффективность вашей защитной стойки на ' \
                    f'{str(self.power)} единиц'
 
 
@@ -147,6 +136,10 @@ class Monster:
         pl.health -= damage_dealed
         output(f'Монстр атаковал вас! Он нанёс вам {damage_dealed} урона')
         labels_update()
+        # Если монстр - летучая мышь, она лечится на 1/10 от нанесенного урона
+        if self.name == BAT:
+            self.health += int(damage_dealed * 0.1)
+            monster_label_update(self)
 
     def get_damaged(self, damage):
         self.health -= damage

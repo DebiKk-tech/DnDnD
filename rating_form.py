@@ -1,14 +1,16 @@
+# -*- coding: utf-8 -*-
+
 from PyQt5.QtWidgets import QWidget, QTableWidgetItem
-from PyQt5 import uic
+from rating_form_design import Ui_Form
 
 from sqlite_functions import *
 
 
-class RatingForm(QWidget):
+class RatingForm(QWidget, Ui_Form):
     def __init__(self, parent):
         super().__init__()
+        self.setupUi(self)
         self.parent = parent
-        uic.loadUi('rating_form.ui', self)
         self.tbl_top_rating.setColumnCount(2)
         self.tbl_top_rating.setVerticalHeaderLabels(['Игрок', 'Очки'])
         all_profiles = get_all_players()

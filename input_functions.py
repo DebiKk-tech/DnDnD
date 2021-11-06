@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from time import sleep
-from PyQt5.QtWidgets import  QInputDialog
+from PyQt5.QtWidgets import QInputDialog
 from sqlite_functions import *
 
 
@@ -7,6 +9,13 @@ def get_form(getform):
     global form, pl
     form = getform
     pl = form.pl
+
+
+def grp_connect(spis, list_of_funcs, grp):
+    for n, btn in enumerate(grp):
+        btn.disconnect()
+        btn.clicked.connect(list_of_funcs[n])
+        btn.setText(spis[n])
 
 
 def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
@@ -18,26 +27,17 @@ def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
 
 def input_two(spis, list_of_funcs):
     enable_buttons(form.grp_two, form.grp_three, form.grp_four)
-    for n, btn in enumerate(form.grp_two.buttons()):
-        btn.disconnect()
-        btn.clicked.connect(list_of_funcs[n])
-        btn.setText(spis[n])
+    grp_connect(spis, list_of_funcs, form.grp_two.buttons())
 
 
 def input_three(spis, list_of_funcs):
     enable_buttons(form.grp_three, form.grp_two, form.grp_four)
-    for n, btn in enumerate(form.grp_three.buttons()):
-        btn.disconnect()
-        btn.clicked.connect(list_of_funcs[n])
-        btn.setText(spis[n])
+    grp_connect(spis, list_of_funcs, form.grp_three.buttons())
 
 
 def input_four(spis, list_of_funcs):
     enable_buttons(form.grp_four, form.grp_two, form.grp_three)
-    for n, btn in enumerate(form.grp_four.buttons()):
-        btn.disconnect()
-        btn.clicked.connect(list_of_funcs[n])
-        btn.setText(spis[n])
+    grp_connect(spis, list_of_funcs, form.grp_four.buttons())
 
 
 def dialog_input(dialog, *argumenst):
@@ -71,7 +71,8 @@ def output(text):
 
 
 def profile_update(dead=False):
-    pl.points = pl.money + (pl.level - 1) * 20 + pl.exp
+    # pl.level - 1, т.к. для первого уровня не нужен опыт, а points - это сумма exp и money
+    pl.points = pl.money + (pl.level - 1) * EXPERIENCE_MULTIPLIER + pl.exp
     change_player(form.login, pl, dead)
 
 
