@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QPixmap
+from PyQt5 import uic
 
 from main_form_design import Ui_Form
 from input_functions import *
@@ -17,15 +19,22 @@ from constants import *
 class MainForm(QWidget, Ui_Form):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
+        uic.loadUi('main_form.ui', self)
+        number = 1
+        while True:
+            if os.path.isfile(f'logs/log{str(number)}.txt'):
+                number += 1
+            else:
+                self.logfile = open(f'logs/log{str(number)}.txt', 'a', encoding='utf-8')
+                break
         self.pln_output.setReadOnly(True)
+        self.bar_monster_health.setVisible(False)
         for btn in self.grp_two.buttons():
             btn.setVisible(False)
         for btn in self.grp_three.buttons():
             btn.setVisible(False)
         for btn in self.grp_four.buttons():
             btn.setVisible(False)
-        self.bar_monster_health.setVisible(False)
         self.pl = Player()
         self.loginForm = LoginForm(self)
         self.loginForm.show()

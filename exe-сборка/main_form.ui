@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>601</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>DnDnD</string>
+  </property>
+  <widget class="QProgressBar" name="bar_monster_health">
+   <property name="geometry">
+    <rect>
+     <x>217</x>
+     <y>160</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QProgressBar::chunk {
+     background-color: #FF0000;
+ }</string>
+   </property>
+   <property name="value">
+    <number>24</number>
+   </property>
+   <property name="textVisible">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="pln_output">
+   <property name="geometry">
+    <rect>
+     <x>13</x>
+     <y>190</y>
+     <width>571</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_quad_1">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>520</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>QUAD 1</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_four</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_quad_2">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>155</x>
+     <y>520</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>QUAD 2</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_four</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_quad_3">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>520</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>QUAD 3</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_four</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_quad_4">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>520</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>QUAD 4</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_four</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_triple_1">
+   <property name="geometry">
+    <rect>
+     <x>25</x>
+     <y>520</y>
+     <width>171</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TRIPLE 1</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_three</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_triple_3">
+   <property name="geometry">
+    <rect>
+     <x>205</x>
+     <y>520</y>
+     <width>171</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TRIPLE 3</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_three</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_triple_2">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>520</y>
+     <width>171</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TIPLE 2</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_three</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_double_1">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>520</y>
+     <width>276</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DOUBLE 1</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_two</string>
+   </attribute>
+  </widget>
+  <widget class="QPushButton" name="btn_double_2">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>520</y>
+     <width>276</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>DOUBLE 2</string>
+   </property>
+   <attribute name="buttonGroup">
+    <string notr="true">grp_two</string>
+   </attribute>
+  </widget>
+  <widget class="QLabel" name="lbl_image">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>30</y>
+     <width>131</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_health">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>480</y>
+     <width>221</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ваше здоровье: 100/100</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_money">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>480</y>
+     <width>291</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ваши монеты: 20</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_monster_health">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>160</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lbl_monster_name">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>0</y>
+     <width>391</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="grp_three"/>
+  <buttongroup name="grp_two"/>
+  <buttongroup name="grp_four"/>
+ </buttongroups>
+</ui>

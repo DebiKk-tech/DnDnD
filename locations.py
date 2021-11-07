@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from random import randint
+
 from input_functions import *
 from tavern_functions import *
 from creatures import *
 from underground_functions import *
 from rating_form import *
 from constants import*
+from sqlite_functions import *
+
 weapon_dict = {
     AXE: Weapon(AXE, 5, 1200),
     SHORT_SWORD: Weapon(SHORT_SWORD, 7, 3000),
@@ -144,8 +148,34 @@ def catacombs():
 
 
 def hell_tower():
-    output(HELLTOWER_UNACTIVE)
+    output(HELLTOWER_ARE_YOU_SURE)
+    input_two([YES, NO], [helltower_yes, start_location])
+
+
+def helltower_yes():
+    output(YOU_CHOOSE_DEATH)
+    # Есть 3 босса с id от 1 до трёх
+    deads = get_bosses_alive()
+    # get_bosses_alive возвращает список со статусами боссов, 0 - жив, 1 - мертв
+    if 0 in deads:
+        dead = 1
+        while dead == 1:
+            boss_id = randint(1, 3)
+            boss = get_boss(boss_id)[0]
+            dead = boss[-1]
+        boss = Monster(boss[0], (boss[2], boss[3]), boss[4], (boss[5], boss[6]), boss[7], boss=True)
+        fight(boss)
+    else:
+        output(ALL_BOSSES_DEAD)
+        input_two([YES, NO], [rewive_yes, start_location])
+
+
+def rewive_yes():
+    set_all_bosses_alive()
+    output(BOSSES_REVIVED)
+    start_location()
 
 
 get_tavern_and_startloc(tavern, start_location)
 get_start_location(start_location)
+get_start_location_fight(start_location)

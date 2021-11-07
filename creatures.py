@@ -59,8 +59,10 @@ class Player:
         profile_update(dead=True)
         sys.exit()
 
-    def attack(self):
+    def attack(self, boss=False):
         damage = int(self.weapon.damage * self.boost)
+        if boss and self.amulet.action == PLUS_DAMAGE:
+            damage += self.amulet.power
         output(f'Вы атаковали монстра. Вы нанесли ему {damage} урона')
         return damage
 
@@ -121,13 +123,14 @@ class Amulet:
 
 
 class Monster:
-    def __init__(self, name, damage, health, reward, img_way):
+    def __init__(self, name, damage, health, reward, img_way, boss=False):
         self.name = name
         self.damage = damage
         self.maxhealth = health
         self.reward = reward
         self.health = health
         self.image = img_way
+        self.boss = boss
 
     def attack(self, defence=0):
         damage_dealed = randint(self.damage[0], self.damage[1]) - pl.armor.defence - defence
@@ -149,9 +152,14 @@ class Monster:
 
     def check_if_dead(self):
         if self.health <= 0:
-            output(f'Вы одолели монстра, получив {self.reward[0]} монет и {self.reward[1]} опыта')
-            pl.money += self.reward[0]
-            pl.add_exp(self.reward[1])
+            output(f'Вы одолели монстра, получив {self.reward[0] * self.maxhealth} монет и '
+                   f'{self.reward[1] * self.maxhealth} опыта')
+            if self.boss:
+                pl.money += self.reward[0] * self.maxhealth
+                pl.add_exp(self.reward[1] * self.maxhealth)
+            else:
+                pl.money += self.reward[0]
+                pl.add_exp(self.reward[1])
             labels_update()
             return True
         return False

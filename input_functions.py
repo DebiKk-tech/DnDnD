@@ -12,10 +12,11 @@ def get_form(getform):
 
 
 def grp_connect(spis, list_of_funcs, grp):
-    for n, btn in enumerate(grp):
+    for n, btn in enumerate(grp.buttons()):
         btn.disconnect()
         btn.clicked.connect(list_of_funcs[n])
         btn.setText(spis[n])
+
 
 
 def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
@@ -27,17 +28,17 @@ def enable_buttons(grp, wrong_grp_1, wrong_grp_2):
 
 def input_two(spis, list_of_funcs):
     enable_buttons(form.grp_two, form.grp_three, form.grp_four)
-    grp_connect(spis, list_of_funcs, form.grp_two.buttons())
+    grp_connect(spis, list_of_funcs, form.grp_two)
 
 
 def input_three(spis, list_of_funcs):
     enable_buttons(form.grp_three, form.grp_two, form.grp_four)
-    grp_connect(spis, list_of_funcs, form.grp_three.buttons())
+    grp_connect(spis, list_of_funcs, form.grp_three)
 
 
 def input_four(spis, list_of_funcs):
     enable_buttons(form.grp_four, form.grp_two, form.grp_three)
-    grp_connect(spis, list_of_funcs, form.grp_four.buttons())
+    grp_connect(spis, list_of_funcs, form.grp_four)
 
 
 def dialog_input(dialog, *argumenst):
@@ -62,6 +63,7 @@ def dialog_str_input(name, text):
 def output(text):
     wastext = form.pln_output.toPlainText()
     text = '\n' + text + '\n'
+    form.logfile.write(text)
     for i in range(len(text)):
         form.pln_output.setPlainText(text[:i] + wastext)
         form.repaint()
@@ -73,10 +75,10 @@ def output(text):
 def profile_update(dead=False):
     # pl.level - 1, т.к. для первого уровня не нужен опыт, а points - это сумма exp и money
     pl.points = pl.money + (pl.level - 1) * EXPERIENCE_MULTIPLIER + pl.exp
+    form.logfile.close()
     change_player(form.login, pl, dead)
 
 
 def labels_update():
     form.lbl_money.setText(f'Ваши монеты: {pl.money}')
     form.lbl_health.setText(f'Ваше здоровье: {pl.health}/{pl.maxhealth}')
-
