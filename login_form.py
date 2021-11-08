@@ -51,7 +51,7 @@ def check_login(login, registration=False):
     all_list = get_all_players()
     logins_list = []
     for elem in all_list:
-        logins_list.append(elem[0])
+        logins_list.append(str(elem[0]))
     if login.strip() == '':
         raise LoginEmptyError
     elif login in logins_list and registration:
