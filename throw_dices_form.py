@@ -12,7 +12,7 @@ from constants import *
 class ThrowDicesForm(QWidget, Ui_Form):
     def __init__(self, *args):
         super().__init__()
-        Ui_Form.setupUi(self)
+        self.setupUi(self)
         # По умолчанию оба кубика лежат единицами вверх
         self.pixmap1, self.pixmap2 = QPixmap('images/1_dot.png'), QPixmap('images/1_dot.png')
         self.lbl_image1.setPixmap(self.pixmap1)

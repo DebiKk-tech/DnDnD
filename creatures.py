@@ -152,12 +152,14 @@ class Monster:
 
     def check_if_dead(self):
         if self.health <= 0:
-            output(f'Вы одолели монстра, получив {self.reward[0] * self.maxhealth} монет и '
-                   f'{self.reward[1] * self.maxhealth} опыта')
             if self.boss:
+                output(f'Вы одолели монстра, получив {self.reward[0] * self.maxhealth} монет и '
+                       f'{self.reward[1] * self.maxhealth} опыта')
                 pl.money += self.reward[0] * self.maxhealth
                 pl.add_exp(self.reward[1] * self.maxhealth)
             else:
+                output(f'Вы одолели монстра, получив {self.reward[0]} монет и '
+                       f'{self.reward[1]} опыта')
                 pl.money += self.reward[0]
                 pl.add_exp(self.reward[1])
             labels_update()
