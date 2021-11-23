@@ -26,7 +26,7 @@ class ThrowDicesForm(QWidget, Ui_Form):
         if self.player.money < 20:
             self.lbl_msg.setText(NOT_ENOUGH_MONEY)
         else:
-            # От 1 до шести - количество граней игрального кубика
+            # От 1 до 6 - количество граней игрального кубика
             n1 = randint(1, 6)
             n2 = randint(1, 6)
             # Минус 1, т.к. в списке индексация с нуля
